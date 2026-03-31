@@ -1,18 +1,29 @@
 
-# Linux System Monitor CLI
+# 🖥️ Linux System Monitoring CLI Tool
 
-A simple Python-based CLI tool to monitor system performance.
+A simple and efficient **command-line system monitoring tool** built using Python for Linux environments.  
+This tool provides real-time insights into system performance, including CPU usage, memory utilization, and running processes.
 
-## Features
-- CPU usage
-- Memory usage
-- Top running processes
-- Auto-refresh every 2 seconds
+---
 
-## Requirements
-- Linux OS
-- Python 3
+## 🚀 Features
+- 📊 Monitor **CPU usage** in real-time  
+- 💾 Track **memory utilization**  
+- ⚙️ View **top running processes**  
+- ⚠️ High CPU usage **alert system**  
+- 📝 Basic **logging mechanism** for monitoring activity  
+- 🔄 Auto-refreshing CLI dashboard  
 
-## Run
-```bash
-python monitor.py
+---
+
+## 🛠️ Tech Stack
+- **Language:** Python  
+- **Platform:** Linux  
+- **Concepts:**  
+  - Operating Systems  
+  - Process Management  
+  - System Monitoring  
+  - Observability Basics  
+
+---
+
