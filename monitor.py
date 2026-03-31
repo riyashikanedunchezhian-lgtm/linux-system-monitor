@@ -10,13 +10,13 @@ def clear_screen():
 
 def get_cpu_usage():
     if platform.system() == "Windows":
-        return os.popen("wmic cpu get loadpercentage").read()
+        return os.popen('powershell "Get-CimInstance Win32_Processor | Select-Object LoadPercentage"').read()
     else:
         return os.popen("top -bn1 | grep 'Cpu(s)'").read()
 
 def get_memory_usage():
     if platform.system() == "Windows":
-        return os.popen("wmic OS get FreePhysicalMemory,TotalVisibleMemorySize /Value").read()
+        return os.popen('powershell "Get-CimInstance Win32_OperatingSystem | Select FreePhysicalMemory,TotalVisibleMemorySize"').read()
     else:
         return os.popen("free -h").read()
 
@@ -47,7 +47,7 @@ def main():
             print(memory)
 
             print("🔹 Top Processes:")
-            print(processes[:1000])  # limit output
+            print(processes[:1000])
 
             log_data("System checked")
 
