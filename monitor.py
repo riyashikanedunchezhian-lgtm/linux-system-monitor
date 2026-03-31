@@ -1,39 +1,40 @@
 import os
 import time
+import platform
 from datetime import datetime
 
 LOG_FILE = "monitor.log"
 
+def clear_screen():
+    os.system("cls" if platform.system() == "Windows" else "clear")
+
 def get_cpu_usage():
-    output = os.popen("top -bn1 | grep 'Cpu(s)'").read()
-    return output
+    if platform.system() == "Windows":
+        return os.popen("wmic cpu get loadpercentage").read()
+    else:
+        return os.popen("top -bn1 | grep 'Cpu(s)'").read()
 
 def get_memory_usage():
-    return os.popen("free -h").read()
+    if platform.system() == "Windows":
+        return os.popen("wmic OS get FreePhysicalMemory,TotalVisibleMemorySize /Value").read()
+    else:
+        return os.popen("free -h").read()
 
 def get_processes():
-    return os.popen("ps -eo pid,cmd,%mem,%cpu --sort=-%cpu | head").read()
+    if platform.system() == "Windows":
+        return os.popen("tasklist").read()
+    else:
+        return os.popen("ps -eo pid,cmd,%mem,%cpu --sort=-%cpu | head").read()
 
 def log_data(data):
     with open(LOG_FILE, "a") as f:
         f.write(f"{datetime.now()} | {data}\n")
 
-def clear_screen():
-    os.system("clear")
-
-def check_alert(cpu_output):
-    try:
-        cpu_percent = float(cpu_output.split(',')[0].split()[1])
-        if cpu_percent > 80:
-            print("⚠️ HIGH CPU USAGE ALERT!")
-    except:
-        pass
-
 def main():
     try:
         while True:
             clear_screen()
-            print("===== LINUX SYSTEM MONITOR =====\n")
+            print("===== SYSTEM MONITOR =====\n")
 
             cpu = get_cpu_usage()
             memory = get_memory_usage()
@@ -41,15 +42,14 @@ def main():
 
             print("🔹 CPU Usage:")
             print(cpu)
-            check_alert(cpu)
 
-            print("\n🔹 Memory Usage:")
+            print("🔹 Memory Usage:")
             print(memory)
 
             print("🔹 Top Processes:")
-            print(processes)
+            print(processes[:1000])  # limit output
 
-            log_data("CPU checked")
+            log_data("System checked")
 
             print("\nPress CTRL+C to exit...")
             time.sleep(2)
